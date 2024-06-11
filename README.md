@@ -81,3 +81,65 @@ If you are interested in my project, the following links will also be very helpf
 2. [**Andrej Karpathy's NanoGPT project**](https://github.com/karpathy/nanoGPT): https://github.com/karpathy/nanoGPT
 3. [**Brendan Bycroft's 3D visualization of transformers**](https://bbycroft.net/llm): https://bbycroft.net/llm
 4. [**3Blue1Brown's LLM course**](https://youtu.be/eMlx5fFNoYc?si=k40zeuPdM_4cB88o): https://youtu.be/eMlx5fFNoYc?si=k40zeuPdM_4cB88o
+
+# 你只需要电子表格（新增 Excel 版本！）
+**一个封装在电子表格中的 nanoGPT 流程**
+
+这是我为了更好地理解 GPT 工作原理而做的一个项目。<br>
+特别有趣，尤其是当你尝试弄清楚变换器内部发生了什么时。<br>
+这帮助我可视化了整个结构和数据流。<br> 
+所有机制、计算和矩阵都是完全互动和可配置的。<br>
+
+在阅读关于大型语言模型（LLM）时，我意识到变换器的内部机制基本上是一系列矩阵计算按照特定顺序连接。<br>
+我开始想，是否可以在电子表格中表示整个过程，因为所有计算都相对简单。
+作为一个视觉型思考者，我想不出更好的方式了。
+经过一些尝试和错误后，我将 nanoGPT 架构的完整推理流程写入了一个电子表格。<br>
+忘了 Python，结果证明**你只需要电子表格**。
+
+**电子表格的全视图**
+![**你只需要电子表格**](https://github.com/dabochen/spreadsheet-is-all-you-need/blob/main/spreadsheetisallyouneed.jpg?raw=true)
+
+**深入变换器的核心--自注意力**
+![**变换器的核心--自注意力**](https://github.com/dabochen/spreadsheet-is-all-you-need/blob/main/KQV.jpg?raw=true)
+
+## 你会看到哪些组件
+它包含所有变换器组件，包括：
+1. 嵌入
+2. 层规范化
+3. 自注意力
+4. 投影
+5. MLP
+6. softmax
+7. logits
+
+它基于 Andrej Karpathy 的 NanoGPT 结构，包括大约 85000 个参数。<br>
+尽管规模很小，但复杂到足以让我理解其工作原理，也不至于让我的计算机崩溃。
+与 chatgpt 不同，这个项目是基于字符的预测系统，意味着每个标记都是一个字符，为了减少复杂性，只有 A/B/C 三个字母被标记。
+
+## 还包括什么
+在 numbers 文件“nanoGPT.numbers”中，你会看到两个标签页，一个叫做“无权重”，另一个叫做“随机权重”。<br>
+它们本质上是一样的，只是“随机权重”标签页中的所有参数都是随机生成的，而“无权重”标签页中的参数非常整洁，它显示了管道中的奇怪值，但也更清晰，以帮助你阅读。这就是我保留两者的原因。<br>
+由于电子表格软件的内部机制，每次在“随机权重”标签页更新电子表格时，所有值都将重新生成（计算量大，冻结电脑几秒钟有点烦人，但你可以通过将所有值转换为静态值来避免这种情况）。<br>
+
+电子表格不包含实际的训练权重和参数，因此在你更新参数之前，不应期望它为你计算正确的结果。
+
+你可能还在想是否有 Excel 或 Google 表格版本，遗憾的是目前还没有。<br>
+这仅仅是因为整个流程太大了，我需要多个表格来组织一切，只有 numbers 能做到这一点。<br>
+我将看看是否可以在不久的将来在 Excel 中重新创建它（现在已添加，只需检查列表中的 Excel 文件）。
+
+## 如何
+
+读取/使用它
+首先，所有块都是通过 GPT 架构处理的值或参数，它们被编码为紫色、绿色和橙色。
+
+**紫色**：这些是应由训练有素的模型的参数替换的参数。<br>
+**绿色**：这些是从输入开始并转换成最终结果的值。<br>
+**橙色**：这些只是用于计算的中间值，放在这里是为了减少混淆。
+
+其次，你应该从顶部开始，一直工作到底部，页面左侧有标签显示你所处的阶段。<br>
+有三个变压器标记为 0/1/2，每个都有相同的结构，应包含不同的参数，数据将按顺序通过所有这些变压器。
+
+最后，这个演示得到了 LLM 可视化项目的巨大帮助（https://bbycroft.net/llm）由 Brendan Bycroft 制作，它使用 3D 动画来解释变压器。<br>
+我保留了它使用的例子，即关于排序字母的例子。
+
+如果你正在使用最近添加的 Excel 版本，你会注意到它可能看起来与附图相同，这是因为 Excel 的限制，不能在一个页面上包含多个表格，为了更清晰，我添加了“MAP”标签和“管道的视觉结构”标签，这两个标签会提供一个菜单和架构的大致布局，你可以点击链接跳转到页面，并使用页面左上角的返回链接返回。
